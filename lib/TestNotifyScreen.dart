@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'LocalNotifyManager.dart';
+import 'ScreenSecond.dart';
 
 class TestNotifyScreen extends StatefulWidget {
   @override
@@ -22,6 +23,9 @@ class _TestNotifyScreenState extends State<TestNotifyScreen> {
 
   onNotificationClick(String payload) {
     print('Payload $payload');
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ScreenSecond(payload: payload);
+    }));
   }
 
   @override
@@ -33,7 +37,10 @@ class _TestNotifyScreenState extends State<TestNotifyScreen> {
       body: Center(
         child: FlatButton(
           onPressed: () async {
-            await localNotifyManager.showNotification();
+            //await localNotifyManager.showNotification();
+            //await localNotifyManager.scheduleNotification();
+            //await localNotifyManager.repeatNotification();
+            await localNotifyManager.showDailyAtTimeNotification();
           },
           child: Text('Send Notification'),
         ),

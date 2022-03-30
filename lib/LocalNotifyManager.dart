@@ -72,6 +72,76 @@ class LocalNotifyManager {
       payload: 'New Payload'
     );
   }
+
+  Future<void> scheduleNotification() async {
+    var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
+    var androidChannel = AndroidNotificationDetails('CHANNEL_ID',
+        'CHANNEL_NAME',
+        channelDescription: 'CHANNEL_DESCRIPTION',
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound:  true
+    );
+    var iosChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iosChannel);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        'Schedule Test Title',
+        'Schedule Test Body',
+        scheduleNotificationDateTime,
+        platformChannel,
+        payload: 'New Payload'
+    );
+  }
+
+  Future<void> repeatNotification() async {
+    var androidChannel = AndroidNotificationDetails('CHANNEL_ID',
+        'CHANNEL_NAME',
+        channelDescription: 'CHANNEL_DESCRIPTION',
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound:  true
+    );
+    var iosChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iosChannel);
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        'Repeat Test Title',
+        'Repeat Test Body',
+        RepeatInterval.everyMinute,
+        platformChannel,
+        payload: 'New Payload'
+    );
+  }
+
+  Future<void> showDailyAtTimeNotification() async {
+    var time = Time(19, 3, 0);
+    var androidChannel = AndroidNotificationDetails('CHANNEL_ID',
+        'CHANNEL_NAME',
+        channelDescription: 'CHANNEL_DESCRIPTION',
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound:  true
+    );
+    var iosChannel = IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel, iOS: iosChannel);
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
+        0,
+        'Daily Test Title ${time.hour}-${time.minute}-${time.second}',
+        'Daily Test Body',
+        time,
+        platformChannel,
+        payload: 'New Payload'
+    );
+  }
+
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  Future<void> cancelAllNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
 }
 
 LocalNotifyManager localNotifyManager = LocalNotifyManager.init();
